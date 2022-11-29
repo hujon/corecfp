@@ -1,3 +1,5 @@
+import bisect
+import datetime
 import logging
 import sys
 
@@ -47,6 +49,17 @@ class CoreCFP:
 
             self.conferences.append(conference)
 
+    def upcoming(self, date_from: datetime.date = datetime.date.today()):
+        """
+        Returns upcoming conferences (based on submission/abstract registration deadline)
+
+        :param date_from: Earliest deadline date which shall appear in the result
+        :return: List of conferences with submission/abstract registration from the specified date
+        """
+        conferences = sorted(self.conferences, key=Conference.upcoming_key)
+        idx = bisect.bisect_left(conferences, date_from, key=Conference.upcoming_key)
+        return conferences[idx:]
+
 
 if __name__ == '__main__':
     import csv
@@ -72,7 +85,7 @@ if __name__ == '__main__':
         'DBLP',
         'WikiCFP',
     ])
-    for conf in corecfp.conferences:
+    for conf in corecfp.upcoming():
         dates = f"{conf.date[0].isoformat()} - {conf.date[1].isoformat()}" if type(conf.date) is tuple else conf.date
         submission = conf.submission.isoformat() if isinstance(conf.submission, date) else conf.submission
         abstract_reg = conf.abstract_reg.isoformat() if isinstance(conf.abstract_reg, date) else conf.abstract_reg

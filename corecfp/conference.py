@@ -16,3 +16,13 @@ class Conference:
     rank_src: str = None
     dblp_link: str = None
     wikicfp_link: str = None
+
+    @staticmethod
+    def upcoming_key(conference: 'Conference') -> datetime.date:
+        if isinstance(conference.abstract_reg, datetime.date):
+            return conference.abstract_reg
+
+        if isinstance(conference.submission, datetime.date):
+            return conference.submission
+
+        return datetime.date(datetime.MINYEAR, 1, 1)
