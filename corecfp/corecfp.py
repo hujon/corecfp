@@ -73,11 +73,11 @@ if __name__ == '__main__':
     corecfp = CoreCFP()
     writer = csv.writer(sys.stdout)
     writer.writerow([
+        'Submission deadline',
+        'Rank',
         'Acronym',
         'Name',
-        'Rank',
         'Dates',
-        'Submission deadline',
         'Abstract registration',
         'Location',
         'Rank source',
@@ -90,11 +90,11 @@ if __name__ == '__main__':
         submission = conf.submission.isoformat() if isinstance(conf.submission, date) else conf.submission
         abstract_reg = conf.abstract_reg.isoformat() if isinstance(conf.abstract_reg, date) else conf.abstract_reg
         writer.writerow([
+            submission,
+            conf.rank,
             conf.acronym,
             conf.name,
-            conf.rank,
             dates,
-            submission,
             abstract_reg,
             conf.location,
             conf.rank_src,
